@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "email dev",
     "build": "email export",
-    "format": "prettier --write ./emails ./src index.ts"
+    "formatter": "prettier --write ./emails",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,7 @@
   "devDependencies": {
     "@types/react": "18.2.21",
     "git-commit-msg-linter": "5.0.4",
+    "husky": "8.0.3",
     "prettier": "3.0.3"
   }
 }
