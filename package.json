@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "email dev",
-    "build": "email export"
+    "build": "email export",
+    "format": "prettier --write ./emails ./src index.ts"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,8 @@
     "react-email": "1.9.4"
   },
   "devDependencies": {
-    "@types/react": "18.2.21"
+    "@types/react": "18.2.21",
+    "git-commit-msg-linter": "5.0.4",
+    "prettier": "3.0.3"
   }
 }
