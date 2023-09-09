@@ -6,6 +6,7 @@
   "singleAttributePerLine": false,
   "jsxSingleQuote": true,
   "bracketSpacing": true,
+  "bracketSameLine": false,
   "useTabs": false,
   "trailingComma": "all"
 }
