@@ -1,4 +1,3 @@
-import type { PasswordResetProps } from '../assets/types/index';
 import {
   Html,
   Head,
@@ -8,7 +7,8 @@ import {
   Text,
   Button,
 } from '@react-email/components';
-import { MainStyleSheet } from '../assets/styles';
+import type { PasswordResetProps } from './types';
+import { MainStyleSheet } from './styles';
 
 function PasswordReset(props: PasswordResetProps) {
   const {
