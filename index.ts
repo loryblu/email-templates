@@ -1,7 +1,9 @@
-import type { PasswordResetProps } from './assets/types';
-import { loader } from './assets/utils';
+import type { PasswordResetProps } from './emails/types';
+import { templateLoader } from 'emails/utils';
 import { PasswordReset } from './emails';
 
-export const passwordReset = async (props: PasswordResetProps) => {
-  return await loader<PasswordResetProps>(PasswordReset, props);
+export const passwordReset = async (
+  props: PasswordResetProps,
+): Promise<string> => {
+  return await templateLoader(PasswordReset(props));
 };

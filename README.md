@@ -8,6 +8,8 @@ Instala todas as dependencias necessárias para o desenvolvimento e build doa te
 
 ```bash
 yarn install
+#ou
+npm run install
 ```
 
 ## Executando: modo renderização

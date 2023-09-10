@@ -3,7 +3,7 @@
     "render": "npx ts-node ./index.ts",
     "dev": "email dev",
     "build": "email export",
-    "formatter": "prettier --write ./assets ./emails ./index.ts ./README.md",
+    "formatter": "prettier --write ./emails ./index.ts ./README.md",
     "prepare": "husky install"
   },
   "dependencies": {
