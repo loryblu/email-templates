@@ -1,3 +1,7 @@
-import { html } from './src/loader';
+import type { PasswordResetProps } from './assets/types';
+import { loader } from './assets/utils';
+import { PasswordReset } from './emails';
 
-console.log(html);
+export const passwordReset = async (props: PasswordResetProps) => {
+  return await loader<PasswordResetProps>(PasswordReset, props);
+};
