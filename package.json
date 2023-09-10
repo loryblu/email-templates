@@ -1,20 +1,29 @@
 {
-  "name": "email-templates",
-  "version": "0.0.1",
-  "description": "Este repositório contém uma coleção de modelos de emails prontos para usar em várias situações e cenários.",
-  "private": true,
   "scripts": {
+    "render": "npx ts-node ./index.ts",
     "dev": "email dev",
-    "build": "email export"
+    "build": "email export",
+    "formatter": "prettier --write ./assets ./emails ./index.ts ./README.md",
+    "prepare": "husky install"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "dependencies": {
     "@react-email/components": "0.0.7",
+    "@react-email/render": "0.0.7",
     "react-email": "1.9.4"
   },
   "devDependencies": {
-    "@types/react": "18.2.21"
-  }
+    "@types/react": "18.2.21",
+    "git-commit-msg-linter": "5.0.4",
+    "husky": "8.0.3",
+    "prettier": "3.0.3",
+    "ts-node": "10.9.1",
+    "typescript": "5.2.2"
+  },
+  "private": true,
+  "version": "0.0.1",
+  "name": "email-templates",
+  "description": "Este repositório contém uma coleção de modelos de emails prontos para usar em várias situações e cenários.",
+  "author": "LoryBlu",
+  "license": "MIT",
+  "keywords": []
 }
