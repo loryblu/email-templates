@@ -1,7 +1,8 @@
 import { renderAsync } from '@react-email/render';
 
-export const templateLoader = async (
-  Template: JSX.Element,
+export const templateLoader = async <PropsType>(
+  Template: Function,
+  props: PropsType,
 ): Promise<string> => {
-  return await renderAsync(Template, { pretty: true });
+  return await renderAsync(Template(props), { pretty: true });
 };
