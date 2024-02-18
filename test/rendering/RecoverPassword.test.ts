@@ -1,13 +1,18 @@
 // @ts-nocheck
+import type { ZodError, ZodIssue } from 'zod';
+import type { RecoverPasswordParams } from '../../emails/RecoverPassword';
 import { describe, expect, it } from 'vitest';
 import { faker } from '@faker-js/faker';
-import type { RecoverPasswordParams } from '../../emails/RecoverPassword';
+import validationResponses from '../../assets/responses';
 import { RecoverPassword } from '../../index';
-import { ZodError, ZodIssue } from 'zod';
 
-function groupIssuesByParam(issues: Array<ZodIssue>): {
+type GroupIssuesByParamResponse = {
   [key: string]: ZodIssue;
-} {
+};
+
+function groupIssuesByParam(
+  issues: Array<ZodIssue>,
+): GroupIssuesByParamResponse {
   return issues.reduce((previousValue, currentValue: ZodIssue) => {
     const param = currentValue.path[0];
 
@@ -16,10 +21,10 @@ function groupIssuesByParam(issues: Array<ZodIssue>): {
   }, {});
 }
 
-async function renderWithIssues(stubs) {
-  return await RecoverPassword(stubs).catch(
-    (error: ZodError) => groupIssuesByParam(error.issues),
-  );
+async function renderWithIssues(stubs: RecoverPasswordParams) {
+  return await RecoverPassword(stubs).catch((error: ZodError) => {
+    return groupIssuesByParam(error.issues);
+  });
 }
 
 describe('Compilation test', () => {
@@ -55,12 +60,6 @@ describe('Compilation test', () => {
   });
 
   describe('Unhappy path', () => {
-    const unhappyStubs: RecoverPasswordParams = {
-      app_name: faker.number.int({ min: 1, max: 200 }),
-      username: '',
-      url: faker.word.words(1),
-    };
-
     describe('Validate code and error messages', async () => {
       describe('Check STRING validation', async () => {
         const stringValidationStubs: RecoverPasswordParams = {
@@ -71,19 +70,19 @@ describe('Compilation test', () => {
 
         const issues = await renderWithIssues(stringValidationStubs);
         const expectedCode = 'invalid_type';
-        const expectedMessage = 'Espera um texto';
+        const expectedMessage = validationResponses.string;
 
-        it('Check "app_name"', () => {
+        it('Check "app_name" datatype', () => {
           expect(issues.app_name.code).toStrictEqual(expectedCode);
           expect(issues.app_name.message).toStrictEqual(expectedMessage);
         });
 
-        it('Check "username" errors', () => {
+        it('Check "username" datatype', () => {
           expect(issues.username.code).toStrictEqual(expectedCode);
           expect(issues.username.message).toStrictEqual(expectedMessage);
         });
 
-        it('Check "url" errors', () => {
+        it('Check "url" datatype', () => {
           expect(issues.url.code).toStrictEqual(expectedCode);
           expect(issues.url.message).toStrictEqual(expectedMessage);
         });
@@ -97,14 +96,14 @@ describe('Compilation test', () => {
 
         const issues = await renderWithIssues(lengthValidationStubs);
         const expectedCode = 'too_small';
-        const expectedMessage = 'Texto muito curto';
+        const expectedMessage = validationResponses.tooSmall;
 
-        it('Check "app_name"', () => {
+        it('Check "app_name" length', () => {
           expect(issues.app_name.code).toStrictEqual(expectedCode);
           expect(issues.app_name.message).toStrictEqual(expectedMessage);
         });
 
-        it('Check "username" errors', () => {
+        it('Check "username" length', () => {
           expect(issues.username.code).toStrictEqual(expectedCode);
           expect(issues.username.message).toStrictEqual(expectedMessage);
         });
@@ -117,7 +116,7 @@ describe('Compilation test', () => {
 
         const issues = await renderWithIssues(lengthValidationStubs);
         const expectedCode = 'invalid_string';
-        const expectedMessage = 'Espera uma URL válida';
+        const expectedMessage = validationResponses.url;
 
         it('Check "url" format', () => {
           expect(issues.url.code).toStrictEqual(expectedCode);
