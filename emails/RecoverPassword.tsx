@@ -12,9 +12,21 @@ import stylesheet from '../assets/stylesheet';
 import responses from '../assets/responses';
 
 const RecoverPasswordSchema = z.object({
-  app_name: z.string({ invalid_type_error: responses.string }).min(2).optional().default('APP_NAME'),
-  username: z.string().min(2, { message: responses.tooSmall }).optional().default('USERNAME'),
-  url: z.string().min(1).url({ message: responses.url }).optional(),
+  app_name: z
+    .string({ invalid_type_error: responses.string })
+    .min(2)
+    .optional()
+    .default('APP_NAME'),
+  username: z
+    .string({ invalid_type_error: responses.string })
+    .min(2, { message: responses.tooSmall })
+    .optional()
+    .default('USERNAME'),
+  url: z
+    .string({ invalid_type_error: responses.string })
+    .min(1)
+    .url({ message: responses.url })
+    .optional(),
 });
 
 type RecoverPasswordParams = z.infer<typeof RecoverPasswordSchema>;
