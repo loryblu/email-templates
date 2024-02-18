@@ -9,9 +9,10 @@ import {
 } from '@react-email/components';
 import { z } from 'zod';
 import stylesheet from '../assets/stylesheet';
+import responses from '../assets/responses';
 
 const RecoverPasswordSchema = z.object({
-  app_name: z.string().min(2).optional().default('APP_NAME'),
+  app_name: z.string({ invalid_type_error: responses.string }).min(2).optional().default('APP_NAME'),
   username: z.string().min(2).optional().default('USERNAME'),
   url: z.string().min(1).url().optional(),
 });

@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { faker } from '@faker-js/faker';
 import type { RecoverPasswordParams } from '../../emails/RecoverPassword';
 import { RecoverPassword } from '../../index';
+import { ZodError, ZodIssue } from 'zod';
 
 describe('Compilation test', () => {
   describe('Happy path', () => {
@@ -32,6 +33,37 @@ describe('Compilation test', () => {
         const expected = new RegExp(`href="${happyStubs.url}"`);
 
         expect(expected.test(received)).toBeTruthy();
+      });
+    });
+  });
+
+  describe('Unhappy path', () => {
+    const unhappyStubs: RecoverPasswordParams = {
+      app_name: faker.number.int({ min: 1, max: 200 }),
+      username: '',
+      url: faker.word.words(1),
+    };
+
+    describe('Validate code and error messages', async () => {
+      const issues: { [key:string]: ZodIssue } = await RecoverPassword(unhappyStubs).catch(
+        (error: ZodError) => {
+          const groupIssuesByParam = error.issues.reduce(
+            (previousValue, currentValue: ZodIssue) => {
+              const param = currentValue.path[0];
+
+              previousValue[param] = currentValue;
+              return previousValue;
+            },
+            {},
+          );
+
+          return groupIssuesByParam;
+        },
+      );
+
+      it('Check "app_name" errors', () => {
+        expect(issues.app_name.code).toStrictEqual('invalid_type');
+        expect(issues.app_name.message).toStrictEqual('Espera um texto');
       });
     });
   });
