@@ -109,6 +109,21 @@ describe('Compilation test', () => {
           expect(issues.username.message).toStrictEqual(expectedMessage);
         });
       });
+
+      describe('Check URL Format validation', async () => {
+        const lengthValidationStubs: RecoverPasswordParams = {
+          url: '',
+        };
+
+        const issues = await renderWithIssues(lengthValidationStubs);
+        const expectedCode = 'invalid_string';
+        const expectedMessage = 'Espera uma URL válida';
+
+        it('Check "url" format', () => {
+          expect(issues.url.code).toStrictEqual(expectedCode);
+          expect(issues.url.message).toStrictEqual(expectedMessage);
+        });
+      });
     });
   });
 });
