@@ -16,6 +16,12 @@ function groupIssuesByParam(issues: Array<ZodIssue>): {
   }, {});
 }
 
+async function renderWithIssues(stubs) {
+  return await RecoverPassword(stubs).catch(
+    (error: ZodError) => groupIssuesByParam(error.issues),
+  );
+}
+
 describe('Compilation test', () => {
   describe('Happy path', () => {
     const happyStubs: RecoverPasswordParams = {
@@ -56,23 +62,31 @@ describe('Compilation test', () => {
     };
 
     describe('Validate code and error messages', async () => {
-      const issues = await RecoverPassword(unhappyStubs).catch(
-        (error: ZodError) => groupIssuesByParam(error.issues),
-      );
+      describe('Check STRING validation', async () => {
+        const stringValidationStubs: RecoverPasswordParams = {
+          app_name: faker.datatype.boolean(),
+          username: faker.datatype.boolean(),
+          url: faker.datatype.boolean(),
+        };
 
-      it('Check "app_name" errors', () => {
-        expect(issues.app_name.code).toStrictEqual('invalid_type');
-        expect(issues.app_name.message).toStrictEqual('Espera um texto');
-      });
+        const issues = await renderWithIssues(stringValidationStubs);
+        const expectedCode = 'invalid_type';
+        const expectedMessage = 'Espera um texto';
 
-      it('Check "username" errors', () => {
-        expect(issues.username.code).toStrictEqual('too_small');
-        expect(issues.username.message).toStrictEqual('Texto muito curto');
-      });
+        it('Check "app_name"', () => {
+          expect(issues.app_name.code).toStrictEqual(expectedCode);
+          expect(issues.app_name.message).toStrictEqual(expectedMessage);
+        });
 
-      it('Check "url" errors', () => {
-        expect(issues.url.code).toStrictEqual('invalid_string');
-        expect(issues.url.message).toStrictEqual('Espera uma URL válida');
+        it('Check "username" errors', () => {
+          expect(issues.username.code).toStrictEqual(expectedCode);
+          expect(issues.username.message).toStrictEqual(expectedMessage);
+        });
+
+        it('Check "url" errors', () => {
+          expect(issues.url.code).toStrictEqual(expectedCode);
+          expect(issues.url.message).toStrictEqual(expectedMessage);
+        });
       });
     });
   });
