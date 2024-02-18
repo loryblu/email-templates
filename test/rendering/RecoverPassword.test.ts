@@ -88,6 +88,27 @@ describe('Compilation test', () => {
           expect(issues.url.message).toStrictEqual(expectedMessage);
         });
       });
+
+      describe('Check LENGTH validation', async () => {
+        const lengthValidationStubs: RecoverPasswordParams = {
+          app_name: '',
+          username: '',
+        };
+
+        const issues = await renderWithIssues(lengthValidationStubs);
+        const expectedCode = 'too_small';
+        const expectedMessage = 'Texto muito curto';
+
+        it('Check "app_name"', () => {
+          expect(issues.app_name.code).toStrictEqual(expectedCode);
+          expect(issues.app_name.message).toStrictEqual(expectedMessage);
+        });
+
+        it('Check "username" errors', () => {
+          expect(issues.username.code).toStrictEqual(expectedCode);
+          expect(issues.username.message).toStrictEqual(expectedMessage);
+        });
+      });
     });
   });
 });
