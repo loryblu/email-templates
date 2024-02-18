@@ -65,6 +65,11 @@ describe('Compilation test', () => {
         expect(issues.app_name.code).toStrictEqual('invalid_type');
         expect(issues.app_name.message).toStrictEqual('Espera um texto');
       });
+
+      it('Check "username" errors', () => {
+        expect(issues.username.code).toStrictEqual('too_small');
+        expect(issues.username.message).toStrictEqual('Texto muito curto');
+      });
     });
   });
 });
