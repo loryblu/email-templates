@@ -69,6 +69,11 @@ describe('Compilation test', () => {
         expect(issues.username.code).toStrictEqual('too_small');
         expect(issues.username.message).toStrictEqual('Texto muito curto');
       });
+
+      it('Check "url" errors', () => {
+        expect(issues.url.code).toStrictEqual('invalid_string');
+        expect(issues.url.message).toStrictEqual('Espera uma URL válida');
+      });
     });
   });
 });
