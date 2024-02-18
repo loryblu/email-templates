@@ -11,14 +11,14 @@ import { z } from 'zod';
 import stylesheet from '../assets/stylesheet';
 
 const RecoverPasswordSchema = z.object({
-  app_name: z.coerce.string().optional().default('APP_NAME'),
-  username: z.coerce.string().optional().default('USERNAME'),
-  url: z.coerce.string().url().optional(),
+  app_name: z.string().min(2).optional().default('APP_NAME'),
+  username: z.string().min(2).optional().default('USERNAME'),
+  url: z.string().min(1).url().optional(),
 });
 
 type RecoverPasswordParams = z.infer<typeof RecoverPasswordSchema>;
 
-export default function RecoverPassword(params: RecoverPasswordParams) {
+function RecoverPassword(params: RecoverPasswordParams) {
   const { app_name, username, url } = RecoverPasswordSchema.parse(params);
 
   return (
@@ -55,3 +55,7 @@ export default function RecoverPassword(params: RecoverPasswordParams) {
     </Html>
   );
 }
+
+export type { RecoverPasswordParams };
+export { RecoverPassword };
+export default RecoverPassword;
