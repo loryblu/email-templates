@@ -5,6 +5,17 @@ import type { RecoverPasswordParams } from '../../emails/RecoverPassword';
 import { RecoverPassword } from '../../index';
 import { ZodError, ZodIssue } from 'zod';
 
+function groupIssuesByParam(issues: Array<ZodIssue>): {
+  [key: string]: ZodIssue;
+} {
+  return issues.reduce((previousValue, currentValue: ZodIssue) => {
+    const param = currentValue.path[0];
+
+    previousValue[param] = currentValue;
+    return previousValue;
+  }, {});
+}
+
 describe('Compilation test', () => {
   describe('Happy path', () => {
     const happyStubs: RecoverPasswordParams = {
@@ -45,20 +56,8 @@ describe('Compilation test', () => {
     };
 
     describe('Validate code and error messages', async () => {
-      const issues: { [key:string]: ZodIssue } = await RecoverPassword(unhappyStubs).catch(
-        (error: ZodError) => {
-          const groupIssuesByParam = error.issues.reduce(
-            (previousValue, currentValue: ZodIssue) => {
-              const param = currentValue.path[0];
-
-              previousValue[param] = currentValue;
-              return previousValue;
-            },
-            {},
-          );
-
-          return groupIssuesByParam;
-        },
+      const issues = await RecoverPassword(unhappyStubs).catch(
+        (error: ZodError) => groupIssuesByParam(error.issues),
       );
 
       it('Check "app_name" errors', () => {
