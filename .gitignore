@@ -1,7 +1,7 @@
 _trash
 out/
 .react-email/
-yarn.lock
+package-lock.json
 npm-shrinkwrap.json
 pnpm-lock.yaml
 

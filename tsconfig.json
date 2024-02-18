@@ -19,5 +19,5 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
   },
-  "exclude": ["node_modules", ".react-email", "dist", "out", "**/*spec.ts"]
+  "exclude": ["node_modules", ".react-email", "dist", "out", "test"]
 }
