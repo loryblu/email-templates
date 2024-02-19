@@ -45,7 +45,7 @@ describe('Compilation test', () => {
 
       it.concurrent('Check username content', async () => {
         const received = await RecoverPassword(happyStubs);
-        const expected = new RegExp(`Olá, ${happyStubs.username}!`);
+        const expected = new RegExp(`Olá, (<!-- -->)?${happyStubs.username}(<!-- -->)?!`);
 
         expect(expected.test(received)).toBeTruthy();
       });
