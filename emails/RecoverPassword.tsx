@@ -34,7 +34,7 @@ function RecoverPassword(params: RecoverPasswordParams) {
   const { app_name, username, url } = RecoverPasswordSchema.parse(params);
 
   return (
-    <Html>
+    <Html lang='pt-BR' dir='ltr'>
       <Head>
         <title>{app_name}</title>
         <Preview>
